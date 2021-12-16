@@ -1,21 +1,21 @@
 services:
   app:
-    image: sugatan-hyros:latest
+    image: solar-works-job-nimbus:latest
     build:
       context: .
       args:
         BUILD_ENV: prod
-    container_name: sugatan-hyros
+    container_name: solar-works-job-nimbus
     volumes:
-      - ./creds/${CREDS_FILENAME}.json:/tmp/${CREDS_FILENAME}.json
+      - ./creds/${GOOGLE_APPLICATION_CREDENTIALS}:/tmp/${GOOGLE_APPLICATION_CREDENTIALS}
       - ./data:/app/data
     environment:
-      GOOGLE_APPLICATION_CREDENTIALS: /tmp/${CREDS_FILENAME}.json
+      GOOGLE_APPLICATION_CREDENTIALS: /tmp/${GOOGLE_APPLICATION_CREDENTIALS}
       K_SERVICE: dev
       K_CONFIGURATION: dev
       K_REVISION: dev-00001
       USERNAME: ${USERNAME}
-      HYROS_PWD: ${HYROS_PWD}
+      JN_PWD: ${JN_PWD}
       PYTHON_ENV: prod
 
     ports:
