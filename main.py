@@ -7,7 +7,7 @@ def main(request) -> dict:
     print(data)
 
     if "table" in data:
-        response = run(["table"])
+        response = run(data["table"])
     elif "task" in data:
         response = create_tasks()
     else:

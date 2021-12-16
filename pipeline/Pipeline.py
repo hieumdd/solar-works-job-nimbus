@@ -1,6 +1,6 @@
 from typing import Callable, Any
 
-from libs.job_nimbus import get_driver, get_csv, get_data
+from libs.job_nimbus import get_csv, get_data
 from libs.bigquery import load
 from libs.utils import compose
 
@@ -19,7 +19,6 @@ def pipeline(
         transform_func,
         get_data,
         get_csv(report_url),
-        get_driver,
     )
 
 
