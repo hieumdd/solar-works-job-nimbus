@@ -3,7 +3,7 @@ from tasks.TasksController import create_tasks
 
 
 def main(request) -> dict:
-    data = request.get_json()
+    data: dict = request.get_json()
     print(data)
 
     if "table" in data:
