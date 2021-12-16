@@ -3,23 +3,29 @@ from unittest.mock import Mock
 import pytest
 
 from main import main
-from controller.tasks import CLIENTS
+
+from libs.job_nimbus import get_csv
 
 
 def run(data: dict) -> dict:
     return main(Mock(get_json=Mock(return_value=data), args=data))
 
 
-@pytest.mark.parametrize(
-    "client",
-    CLIENTS,
-    ids=[i["name"] for i in CLIENTS],
+@pytest.fixture(
+    params=[
+        "https://app.jobnimbus.com/report/d749bfa04d2046b397d43f1a0dd6be69?view=1",
+        "https://app.jobnimbus.com/report/843f91e32216487c807561d9e800f42f?view=1",
+    ]
 )
-def test_pipelines(client: dict):
-    res = run(client)
-    assert res["num_processed"] >= 0
-    if res["num_processed"] > 0:
-        assert res["num_processed"] == res["output_rows"]
+def report_url(request):
+    return request.param
+
+
+def test_get_csv(report_url):
+    assert get_csv(report_url)(None)
+
+
+# def test_pipeline
 
 
 def test_task():
