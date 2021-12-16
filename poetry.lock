@@ -232,7 +232,7 @@ watchdog = ">=1.0.0,<2.0.0"
 
 [[package]]
 name = "google-api-core"
-version = "2.3.1"
+version = "2.3.2"
 description = "Google API client core library"
 category = "main"
 optional = false
@@ -1386,8 +1386,8 @@ functions-framework = [
     {file = "functions_framework-2.3.0-py3-none-any.whl", hash = "sha256:111cdcc57f7dd6bff206f91c67c5b1322eaec606f16cdbdc65e7e0620c04a7f8"},
 ]
 google-api-core = [
-    {file = "google-api-core-2.3.1.tar.gz", hash = "sha256:d0f3c07aceffd7c68e9585a8e959f3f0a0224556443f4c241c1d59829acfddd6"},
-    {file = "google_api_core-2.3.1-py2.py3-none-any.whl", hash = "sha256:563592c9fa1051de5c8b834a3fb68e1e0b43b5f5c4d0f64ca5ff9da57ae3a172"},
+    {file = "google-api-core-2.3.2.tar.gz", hash = "sha256:c8889f45cf58deca522888ae1d39b2a25e93e7d1b019ae8cee6456d5c726a40c"},
+    {file = "google_api_core-2.3.2-py2.py3-none-any.whl", hash = "sha256:3c562d393aed7e3d2011fcd1f103b490c411dcf5644b6312ca11a166a6ea8faf"},
 ]
 google-auth = [
     {file = "google-auth-2.3.3.tar.gz", hash = "sha256:d83570a664c10b97a1dc6f8df87e5fdfff012f48f62be131e449c20dfc32630e"},

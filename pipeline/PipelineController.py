@@ -7,7 +7,7 @@ DATASET = ""
 
 def factory(table: str) -> Pipeline:
     try:
-        return getattr(importlib.import_module(f"pipelines.Pipeline.{table}"), table)
+        return getattr(importlib.import_module(f"pipeline.Pipeline"), table)
     except (ImportError, AttributeError, IndexError):
         raise ValueError(table)
 

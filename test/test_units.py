@@ -25,7 +25,16 @@ def test_get_csv(report_url):
     assert get_csv(report_url)(None)
 
 
-# def test_pipeline
+@pytest.mark.parametrize(
+    "table",
+    [
+        "JobReportAllFields",
+        "ContactReportAllFields",
+    ],
+)
+def test_pipeline(table):
+    res = run({"table": table})
+    res
 
 
 def test_task():
