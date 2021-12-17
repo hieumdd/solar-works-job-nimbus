@@ -2,9 +2,14 @@ from unittest.mock import Mock
 
 import pytest
 
+import csv
+
 from main import main
 
 from libs.job_nimbus import get_csv
+from libs.bigquery import load
+from pipeline.Pipeline import Pipeline, JobReportAllFields
+from pipeline.PipelineController import DATASET
 
 
 def run(data: dict) -> dict:
@@ -13,16 +18,34 @@ def run(data: dict) -> dict:
 
 @pytest.fixture(
     params=[
-        "https://app.jobnimbus.com/report/d749bfa04d2046b397d43f1a0dd6be69?view=1",
-        "https://app.jobnimbus.com/report/843f91e32216487c807561d9e800f42f?view=1",
+        JobReportAllFields,
     ]
 )
-def report_url(request):
+def pipeline(request):
     return request.param
 
 
-def test_get_csv(report_url):
-    assert get_csv(report_url)(None)
+@pytest.fixture(
+    params=[
+        "JOB REPORT ALL FIELDS.csv",
+    ]
+)
+def data(request):
+    with open(f"test/{request.param}") as f:
+        reader = csv.DictReader(f)
+        return [i for i in reader]
+
+
+def test_get_csv(pipeline: Pipeline):
+    assert get_csv(pipeline.url)(None)
+
+
+def test_transform(data: list[dict], pipeline: Pipeline):
+    assert pipeline.transform(data)
+
+
+def test_load(data: list[dict], pipeline: Pipeline):
+    assert load(DATASET, pipeline.table, pipeline.schema)(pipeline.transform(data)) > 0
 
 
 @pytest.mark.parametrize(
