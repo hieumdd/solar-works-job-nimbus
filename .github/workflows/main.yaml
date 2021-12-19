@@ -9,7 +9,7 @@ env:
   SERVICE: solar-works-job-numbus
   PROJECT_ID: charge-bee
   GCP_SA: etl-55@charge-bee.iam.gserviceaccount.com
-  PUBLIC_URL: https://sugatan-hyros-k6ztmhgstq-uc.a.run.app
+  PUBLIC_URL: https://solar-works-job-numbus-mi66db2bva-uc.a.run.app
   PYTHON_ENV: prod
 
 jobs:
