@@ -8,7 +8,8 @@ from main import main
 
 from libs.job_nimbus import get_csv
 from libs.bigquery import load
-from pipeline.Pipeline import Pipeline, JobReportAllFields
+from libs.utils import compose
+from pipeline.Pipeline import Pipeline, JobReportAllFields, ContactReportAllFields
 from pipeline.PipelineController import DATASET
 
 
@@ -19,7 +20,12 @@ def run(data: dict) -> dict:
 @pytest.fixture(
     params=[
         JobReportAllFields,
-    ]
+        ContactReportAllFields,
+    ],
+    ids=[
+        JobReportAllFields.table,
+        ContactReportAllFields.table,
+    ],
 )
 def pipeline(request):
     return request.param
@@ -28,6 +34,7 @@ def pipeline(request):
 @pytest.fixture(
     params=[
         "JOB REPORT ALL FIELDS.csv",
+        "CONTACT REPORT ALL FIELDS.csv",
     ]
 )
 def data(request):
@@ -45,7 +52,12 @@ def test_transform(data: list[dict], pipeline: Pipeline):
 
 
 def test_load(data: list[dict], pipeline: Pipeline):
-    assert load(DATASET, pipeline.table, pipeline.schema)(pipeline.transform(data)) > 0
+    assert (
+        compose(load(DATASET, pipeline.table, pipeline.schema), pipeline.transform)(
+            data
+        )
+        > 0
+    )
 
 
 @pytest.mark.parametrize(
