@@ -46,7 +46,6 @@ def data(request):
 def test_get_csv(pipeline: Pipeline):
     assert get_csv(pipeline.url)(None)
 
-
 def test_transform(data: list[dict], pipeline: Pipeline):
     assert pipeline.transform(data)
 
@@ -75,7 +74,7 @@ def test_pipeline(table):
 def test_task():
     res = run(
         {
-            "tasks": "hyros",
+            "task": "job-nimbus",
         }
     )
     assert res["tasks"] > 0

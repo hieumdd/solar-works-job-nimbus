@@ -312,9 +312,7 @@ ContactReportAllFields = Pipeline(
             "address_info": row["Address Info"],
             "address_line": row["Address Line"],
             "address_line2": row["Address Line2"],
-            "approved_estimates_total": transform_float(
-                row["Approved Estimates (Total)"]
-            ),
+            "approved_estimates_total": row["Approved Estimates (Total)"],
             "approved_invoices_balance_due": transform_float(
                 row["Approved Invoices (Balance Due)"]
             ),
@@ -408,7 +406,7 @@ ContactReportAllFields = Pipeline(
         {"name": "address_info", "type": "STRING"},
         {"name": "address_line", "type": "STRING"},
         {"name": "address_line2", "type": "STRING"},
-        {"name": "approved_estimates_total", "type": "NUMERIC"},
+        {"name": "approved_estimates_total", "type": "STRING"},
         {"name": "approved_invoices_balance_due", "type": "NUMERIC"},
         {"name": "approved_invoices_total", "type": "NUMERIC"},
         {"name": "city", "type": "STRING"},
