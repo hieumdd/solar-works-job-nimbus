@@ -10,7 +10,7 @@ def load(dataset: str, table: str, schema: list[dict]) -> Callable[[list[dict]],
         output_rows = (
             BQ_CLIENT.load_table_from_json(
                 rows,
-                f"{dataset}._stage_{table}",
+                f"{dataset}.{table}",
                 job_config=bigquery.LoadJobConfig(
                     create_disposition="CREATE_IF_NEEDED",
                     write_disposition="WRITE_TRUNCATE",
