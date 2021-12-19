@@ -63,7 +63,7 @@ def get_csv(report_url: str) -> Callable[[Any], tuple[str, HTTPHeaders]]:
             ),
         )
         print("Download initiated")
-        request = driver.wait_for_request("ReportDownload", timeout=120)
+        request = driver.wait_for_request("ReportDownload", timeout=240)
         driver.quit()
         return request.url, request.headers
 
