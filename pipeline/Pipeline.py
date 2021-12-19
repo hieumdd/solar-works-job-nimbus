@@ -20,12 +20,15 @@ def transform_datetime(i: Optional[str]) -> Optional[str]:
 
 
 def transform_float(i: Optional[str]) -> Optional[float]:
-    if i and i != "N/A":
-        x = i.replace("$", "").replace(",", "")
-        if "(" or ")" in x:
-            x = x.replace("(", "-").replace(")", "")
-        return round(float(x), 6)
-    else:
+    try:
+        if i and i != "N/A":
+            x = i.replace("$", "").replace(",", "")
+            if "(" or ")" in x:
+                x = x.replace("(", "-").replace(")", "")
+            return round(float(x), 6)
+        else:
+            return None
+    except:
         return None
 
 
@@ -312,9 +315,15 @@ ContactReportAllFields = Pipeline(
             "address_info": row["Address Info"],
             "address_line": row["Address Line"],
             "address_line2": row["Address Line2"],
-            "approved_estimates_total": row["Approved Estimates (Total)"],
-            "approved_invoices_balance_due": row["Approved Invoices (Balance Due)"],
-            "approved_invoices_total": row["Approved Invoices (Total)"],
+            "approved_estimates_total": transform_float(
+                row["Approved Estimates (Total)"]
+            ),
+            "approved_invoices_balance_due": transform_float(
+                row["Approved Invoices (Balance Due)"]
+            ),
+            "approved_invoices_total": transform_float(
+                row["Approved Invoices (Total)"]
+            ),
             "city": row["City"],
             "company": row["Company"],
             "country": row["Country"],
@@ -323,7 +332,7 @@ ContactReportAllFields = Pipeline(
             "days_in_status": transform_float(row["Days In Status"]),
             "date_updated": transform_datetime(row["Date Updated"]),
             "description": row["Description"],
-            "down_payment": transform_float(row["Down Payment"]),
+            "down_payment": transform_boolean(row["Down Payment"]),
             "email": row["Email"],
             "end_date": transform_datetime(row["End Date"]),
             "fax_number": row["Fax Number"],
@@ -402,9 +411,9 @@ ContactReportAllFields = Pipeline(
         {"name": "address_info", "type": "STRING"},
         {"name": "address_line", "type": "STRING"},
         {"name": "address_line2", "type": "STRING"},
-        {"name": "approved_estimates_total", "type": "STRING"},
-        {"name": "approved_invoices_balance_due", "type": "STRING"},
-        {"name": "approved_invoices_total", "type": "STRING"},
+        {"name": "approved_estimates_total", "type": "NUMERIC"},
+        {"name": "approved_invoices_balance_due", "type": "NUMERIC"},
+        {"name": "approved_invoices_total", "type": "NUMERIC"},
         {"name": "city", "type": "STRING"},
         {"name": "company", "type": "STRING"},
         {"name": "country", "type": "STRING"},
@@ -413,7 +422,7 @@ ContactReportAllFields = Pipeline(
         {"name": "days_in_status", "type": "NUMERIC"},
         {"name": "date_updated", "type": "TIMESTAMP"},
         {"name": "description", "type": "STRING"},
-        {"name": "down_payment", "type": "NUMERIC"},
+        {"name": "down_payment", "type": "BOOLEAN"},
         {"name": "email", "type": "STRING"},
         {"name": "end_date", "type": "TIMESTAMP"},
         {"name": "fax_number", "type": "STRING"},
