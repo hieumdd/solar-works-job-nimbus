@@ -39,11 +39,18 @@ def test_get_csv(pipeline: Pipeline):
 
 
 def test_parse(pipeline: Pipeline):
-    assert parse_content(read_data(pipeline.table))
+    assert compose(
+        parse_content,
+        read_data,
+    )(pipeline.table)
 
 
 def test_transform(pipeline: Pipeline):
-    assert pipeline.transform(parse_content(read_data(pipeline.table)))
+    assert compose(
+        pipeline.transform,
+        parse_content,
+        read_data,
+    )(pipeline.table)
 
 
 def test_load_transform(pipeline: Pipeline):
@@ -52,19 +59,16 @@ def test_load_transform(pipeline: Pipeline):
             load(DATASET, pipeline.table, pipeline.schema),
             pipeline.transform,
             parse_content,
-        )(read_data(pipeline.table))
+            read_data,
+        )(pipeline.table)
         > 0
     )
 
 
-def test_pipeline(pipeline: Pipeline):
+def test_controller_pipeline(pipeline: Pipeline):
     assert run({"table": pipeline.table})
 
 
-def test_task():
-    res = run(
-        {
-            "task": "job-nimbus",
-        }
-    )
+def test_controller_task():
+    res = run({"task": "job-nimbus"})
     assert res["tasks"] > 0
