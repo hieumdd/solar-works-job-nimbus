@@ -40,7 +40,7 @@ jobs:
           --image=gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}:${{ github.sha }}
           --concurrency=1
           --memory=8Gi
-          --cpu=1
+          --cpu=2
           --platform=managed
           --service-account=${{ env.GCP_SA }}
           --region=us-central1
