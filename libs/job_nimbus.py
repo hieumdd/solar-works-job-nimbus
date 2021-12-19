@@ -2,6 +2,7 @@ from typing import Callable, Any
 import os
 import csv
 import time
+import io
 
 from seleniumwire import webdriver
 from seleniumwire.request import HTTPHeaders
@@ -20,7 +21,7 @@ def get_driver() -> webdriver.Chrome:
     chrome_options.add_argument("--window-size=1920,1080")
     chrome_options.add_argument("--disable-gpu")
     chrome_options.add_argument("--disable-dev-shm-usage")
-    
+
     if os.getenv("PYTHON_ENV") == "dev":
         driver = webdriver.Chrome("./chromedriver", options=chrome_options)
     else:
@@ -34,9 +35,9 @@ def get_csv(report_url: str) -> Callable[[Any], tuple[str, HTTPHeaders]]:
         driver = get_driver()
         # Navigate to Login
         driver.get("https://app.jobnimbus.com/login.aspx")
-        # time.sleep(30)
-        # driver.switch_to.frame("web1")
-        wait(driver, 30).until(EC.frame_to_be_available_and_switch_to_it((By.ID, "web1")))
+        wait(driver, 30).until(
+            EC.frame_to_be_available_and_switch_to_it((By.ID, "web1"))
+        )
         print("Navigated to Login")
 
         # Input Credentials
@@ -70,15 +71,11 @@ def get_csv(report_url: str) -> Callable[[Any], tuple[str, HTTPHeaders]]:
     return _get
 
 
-def get_data(request: tuple[str, HTTPHeaders]) -> list[dict]:
+def get_data(request: tuple[str, HTTPHeaders]) -> bytes:
     url, headers = request
     with requests.get(url, headers=headers) as r:
-        res = r.content
-    csv_lines = res.decode("utf-8").splitlines()
-    return [
-        row
-        for row in csv.DictReader(
-            csv_lines[2:],
-            fieldnames=[i.replace('"', "") for i in csv_lines[0].split(",")],
-        )
-    ]
+        return r.content
+
+
+def parse_content(content: bytes) -> list[dict]:
+    return [row for row in csv.DictReader(io.StringIO(content.decode("utf-8")))]

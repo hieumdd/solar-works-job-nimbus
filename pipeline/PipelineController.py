@@ -1,7 +1,7 @@
 from typing import Callable, Any
 import importlib
 
-from libs.job_nimbus import get_csv, get_data
+from libs.job_nimbus import get_csv, get_data, parse_content
 from libs.bigquery import load
 from libs.utils import compose
 from pipeline.Pipeline import Pipeline
@@ -13,6 +13,7 @@ def pipeline(pipeline: Pipeline) -> Callable[[Any], int]:
     return compose(
         load(DATASET, pipeline.table, pipeline.schema),
         pipeline.transform,
+        parse_content,
         get_data,
         get_csv(pipeline.url),
     )

@@ -3,8 +3,12 @@ from dataclasses import dataclass
 from datetime import datetime
 
 
+def transform_remove_mark(i: str) -> str:
+    return i.replace('"', "")
+
+
 def transform_null(i: str) -> Optional[str]:
-    return i if i else None
+    return transform_remove_mark(i) if i else None
 
 
 def transform_date(i: Optional[str]) -> Optional[str]:
@@ -20,15 +24,12 @@ def transform_datetime(i: Optional[str]) -> Optional[str]:
 
 
 def transform_float(i: Optional[str]) -> Optional[float]:
-    try:
-        if i and i != "N/A":
-            x = i.replace("$", "").replace(",", "")
-            if "(" or ")" in x:
-                x = x.replace("(", "-").replace(")", "")
-            return round(float(x), 6)
-        else:
-            return None
-    except:
+    if i and i != "N/A":
+        x = i.replace("$", "").replace(",", "")
+        if "(" or ")" in x:
+            x = x.replace("(", "-").replace(")", "")
+        return round(float(x), 6)
+    else:
         return None
 
 
@@ -197,7 +198,7 @@ JobReportAllFields = Pipeline(
             for row in rows
         ]
     ],
-    "JobReportAllField",
+    "JobReportAllFields",
     [
         {"name": "name", "type": "STRING"},
         {"name": "record_type", "type": "STRING"},
@@ -332,7 +333,7 @@ ContactReportAllFields = Pipeline(
             "days_in_status": transform_float(row["Days In Status"]),
             "date_updated": transform_datetime(row["Date Updated"]),
             "description": row["Description"],
-            "down_payment": transform_boolean(row["Down Payment"]),
+            "down_payment": transform_float(row["Down Payment"]),
             "email": row["Email"],
             "end_date": transform_datetime(row["End Date"]),
             "fax_number": row["Fax Number"],
@@ -422,7 +423,7 @@ ContactReportAllFields = Pipeline(
         {"name": "days_in_status", "type": "NUMERIC"},
         {"name": "date_updated", "type": "TIMESTAMP"},
         {"name": "description", "type": "STRING"},
-        {"name": "down_payment", "type": "BOOLEAN"},
+        {"name": "down_payment", "type": "NUMERIC"},
         {"name": "email", "type": "STRING"},
         {"name": "end_date", "type": "TIMESTAMP"},
         {"name": "fax_number", "type": "STRING"},
