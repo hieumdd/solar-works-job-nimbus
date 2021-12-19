@@ -13,14 +13,14 @@ def load(dataset: str, table: str, schema: list[dict]) -> Callable[[list[dict]],
                 f"{dataset}._stage_{table}",
                 job_config=bigquery.LoadJobConfig(
                     create_disposition="CREATE_IF_NEEDED",
-                    write_disposition="WRITE_APPEND",
+                    write_disposition="WRITE_TRUNCATE",
                     schema=schema,
                 ),
             )
             .result()
             .output_rows
         )
-        _update(dataset, table)
+        # _update(dataset, table)
 
         return output_rows
 

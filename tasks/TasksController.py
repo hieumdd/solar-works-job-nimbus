@@ -2,11 +2,10 @@ import os
 import json
 import uuid
 
-from google.cloud import tasks_v2, secretmanager
+from google.cloud import tasks_v2
 from google import auth
 
 TASKS_CLIENT = tasks_v2.CloudTasksClient()
-SECRET_CLIENT = secretmanager.SecretManagerServiceClient()
 _, PROJECT_ID = auth.default()
 
 CLOUD_TASKS_PATH = (PROJECT_ID, "us-central1", "job-nimbus")

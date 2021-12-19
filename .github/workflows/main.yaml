@@ -7,7 +7,7 @@ on:
 
 env:
   SERVICE: solar-works-job-numbus
-  PROJECT_ID: sugatan-p
+  PROJECT_ID: charge-bee
   GCP_SA: etl-pipelines@sugatan-p.iam.gserviceaccount.com
   PUBLIC_URL: https://sugatan-hyros-k6ztmhgstq-uc.a.run.app
   PYTHON_ENV: prod
