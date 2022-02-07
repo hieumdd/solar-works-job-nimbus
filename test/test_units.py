@@ -7,7 +7,7 @@ from main import main
 from libs.job_nimbus import get_csv, parse_content
 from libs.bigquery import load
 from libs.utils import compose
-from pipeline.Pipeline import Pipeline, JobReportAllFields, ContactReportAllFields
+from pipeline.Pipeline import Pipeline, JobReportAllFields, ContactReportAllFields, CustomerContact
 from pipeline.PipelineController import DATASET
 
 
@@ -19,10 +19,12 @@ def run(data: dict) -> dict:
     params=[
         JobReportAllFields,
         ContactReportAllFields,
+        CustomerContact,
     ],
     ids=[
         JobReportAllFields.table,
         ContactReportAllFields.table,
+        CustomerContact.table,
     ],
 )
 def pipeline(request):

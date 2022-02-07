@@ -14,6 +14,7 @@ PARENT = TASKS_CLIENT.queue_path(*CLOUD_TASKS_PATH)
 TABLES = [
     "JobReportAllFields",
     "ContactReportAllFields",
+    "CustomerContact",
 ]
 
 
