@@ -4,11 +4,8 @@ import pytest
 
 from main import main
 
-from libs.job_nimbus import get_csv, parse_content
-from libs.bigquery import load
-from libs.utils import compose
-from pipeline.Pipeline import Pipeline, JobReportAllFields, ContactReportAllFields, CustomerContact
-from pipeline.PipelineController import DATASET
+from job_nimbus import job_nimbus, job_nimbus_repo, job_nimbus_service
+from utils.utils import compose
 
 
 def run(data: dict) -> dict:
@@ -16,16 +13,8 @@ def run(data: dict) -> dict:
 
 
 @pytest.fixture(
-    params=[
-        JobReportAllFields,
-        ContactReportAllFields,
-        CustomerContact,
-    ],
-    ids=[
-        JobReportAllFields.table,
-        ContactReportAllFields.table,
-        CustomerContact.table,
-    ],
+    params=job_nimbus_service.services.values(),
+    ids=job_nimbus_service.services.keys(),
 )
 def pipeline(request):
     return request.param
@@ -36,41 +25,40 @@ def read_data(file: str) -> bytes:
         return f.read().encode("utf-8")
 
 
-def test_get_csv(pipeline: Pipeline):
-    assert get_csv(pipeline.url)(None)
+class TestScrape:
+    def test_get_csv(self, pipeline: job_nimbus.Pipeline):
+        assert job_nimbus_repo.get_csv(pipeline.url)(None)
 
-
-def test_parse(pipeline: Pipeline):
-    assert compose(
-        parse_content,
-        read_data,
-    )(pipeline.table)
-
-
-def test_transform(pipeline: Pipeline):
-    assert compose(
-        pipeline.transform,
-        parse_content,
-        read_data,
-    )(pipeline.table)
-
-
-def test_load_transform(pipeline: Pipeline):
-    assert (
-        compose(
-            load(DATASET, pipeline.table, pipeline.schema),
-            pipeline.transform,
-            parse_content,
+    def test_parse(self, pipeline: job_nimbus.Pipeline):
+        assert compose(
+            job_nimbus_repo.parse_content,
             read_data,
         )(pipeline.table)
-        > 0
-    )
+
+    def test_transform(self, pipeline: job_nimbus.Pipeline):
+        assert compose(
+            pipeline.transform,
+            job_nimbus_repo.parse_content,
+            read_data,
+        )(pipeline.table)
 
 
-def test_controller_pipeline(pipeline: Pipeline):
-    assert run({"table": pipeline.table})
+class TestPipeline:
+    def test_load_service(self, pipeline: job_nimbus.Pipeline):
+        assert (
+            compose(
+                job_nimbus_service._load_service(pipeline),
+                job_nimbus_repo.parse_content,
+                read_data,
+            )(pipeline.table)
+            > 0
+        )
+
+    def test_controller(self, pipeline: job_nimbus.Pipeline):
+        assert run({"table": pipeline.table})
 
 
-def test_controller_task():
-    res = run({"task": "job-nimbus"})
-    assert res["tasks"] > 0
+class TestTask:
+    def test_controller(self):
+        res = run({"task": "job-nimbus"})
+        assert res["tasks"] > 0

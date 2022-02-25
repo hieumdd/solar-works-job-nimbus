@@ -5,17 +5,13 @@ import uuid
 from google.cloud import tasks_v2
 from google import auth
 
+from job_nimbus import job_nimbus_service
+
 TASKS_CLIENT = tasks_v2.CloudTasksClient()
 _, PROJECT_ID = auth.default()
 
 CLOUD_TASKS_PATH = (PROJECT_ID, "us-central1", "job-nimbus")
 PARENT = TASKS_CLIENT.queue_path(*CLOUD_TASKS_PATH)
-
-TABLES = [
-    "JobReportAllFields",
-    "ContactReportAllFields",
-    "CustomerContact",
-]
 
 
 def create_tasks() -> dict:
@@ -26,7 +22,7 @@ def create_tasks() -> dict:
                 "table": table,
             },
         }
-        for table in TABLES
+        for table in job_nimbus_service.services.keys()
     ]
     tasks = [
         {
