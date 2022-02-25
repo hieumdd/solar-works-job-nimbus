@@ -13,7 +13,7 @@ def load(dataset: str, table: str, schema: list[dict]) -> Callable[[list[dict]],
                 f"{dataset}.{table}",
                 job_config=bigquery.LoadJobConfig(
                     create_disposition="CREATE_IF_NEEDED",
-                    write_disposition="WRITE_TRUNCATE",
+                    write_disposition="WRITE_APPEND",
                     schema=schema,
                 ),
             )
