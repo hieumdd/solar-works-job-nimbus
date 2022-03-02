@@ -1,5 +1,5 @@
-from pipeline.PipelineController import run
-from tasks.TasksController import create_tasks
+from job_nimbus.job_nimbus_controller import job_nimbus_controller
+from tasks.task_service import create_tasks
 
 
 def main(request) -> dict:
@@ -7,7 +7,7 @@ def main(request) -> dict:
     print(data)
 
     if "table" in data:
-        response = run(data["table"])
+        response = job_nimbus_controller(data["table"])
     elif "task" in data:
         response = create_tasks()
     else:
