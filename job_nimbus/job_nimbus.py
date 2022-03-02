@@ -10,3 +10,4 @@ class Pipeline:
     transform: Callable[[list[dict]], list[dict]]
     table: str
     schema: Schema
+    update: bool

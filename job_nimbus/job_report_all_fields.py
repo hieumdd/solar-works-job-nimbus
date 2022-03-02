@@ -254,4 +254,5 @@ pipeline = Pipeline(
         {"name": "job_id", "type": "STRING"},
         {"name": "contact_id", "type": "STRING"},
     ],
+    update=False,
 )

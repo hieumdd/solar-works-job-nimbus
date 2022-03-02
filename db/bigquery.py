@@ -19,7 +19,7 @@ def id_schema(schema: Schema) -> Schema:
     ]
 
 
-def load(table: str, schema: Schema) -> Callable[[list[dict]], int]:
+def load(table: str, schema: Schema, update=False) -> Callable[[list[dict]], int]:
     def _load(rows: list[dict]) -> int:
         if len(rows) == 0:
             return 0
@@ -30,14 +30,16 @@ def load(table: str, schema: Schema) -> Callable[[list[dict]], int]:
                 f"{DATASET}.{table}",
                 job_config=bigquery.LoadJobConfig(
                     create_disposition="CREATE_IF_NEEDED",
-                    write_disposition="WRITE_APPEND",
+                    write_disposition="WRITE_APPEND" if update else "WRITE_TRUNCATE",
                     schema=schema,
                 ),
             )
             .result()
             .output_rows
         )
-        _update(table)
+        
+        if update:
+            _update(table)
 
         return output_rows
 

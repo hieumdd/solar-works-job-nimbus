@@ -49,7 +49,7 @@ def _load_service(
 ) -> Callable[[list[dict[str, Any]]], dict[str, Union[str, int]]]:
     return compose(
         lambda x: {"table": pipeline.table, "output_rows": x},
-        load(pipeline.table, id_schema(pipeline.schema)),
+        load(pipeline.table, id_schema(pipeline.schema), pipeline.update),
         _id_service,
         pipeline.transform,
     )

@@ -172,4 +172,5 @@ pipeline = Pipeline(
         {"name": "zip", "type": "STRING"},
         {"name": "id", "type": "STRING"},
     ],
+    update=False,
 )
