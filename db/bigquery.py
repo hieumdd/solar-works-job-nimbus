@@ -54,6 +54,6 @@ def _update(table: str) -> None:
             *,
             ROW_NUMBER() OVER (PARTITION BY {ID_KEY} ORDER BY {TIME_KEY} DESC)
             AS row_num
-        FROM {DATASET}._stage_{table}
+        FROM {DATASET}.{table}
     ) WHERE row_num = 1"""
     ).result()

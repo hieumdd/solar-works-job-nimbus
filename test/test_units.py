@@ -50,7 +50,7 @@ class TestPipeline:
                 job_nimbus_service._load_service(pipeline),
                 job_nimbus_repo.parse_content,
                 read_data,
-            )(pipeline.table)
+            )(pipeline.table)["output_rows"]
             > 0
         )
 

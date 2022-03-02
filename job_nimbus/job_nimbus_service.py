@@ -1,6 +1,6 @@
 from typing import Callable, Any, Union
 from datetime import datetime
-import uuid
+import hashlib
 
 from job_nimbus import (
     job_nimbus,
@@ -35,7 +35,9 @@ def _id_service(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
     return [
         {
             **row,
-            ID_KEY: uuid.uuid4(),
+            ID_KEY: hashlib.sha256(
+                "".join([str(i) for i in row.values() if i]).encode("utf-8")
+            ).hexdigest(),
             TIME_KEY: datetime.utcnow().isoformat(timespec="seconds"),
         }
         for row in rows
@@ -57,4 +59,4 @@ def pipeline_service(pipeline: job_nimbus.Pipeline) -> dict[str, Union[str, int]
     return compose(
         _load_service(pipeline),
         _scrape_service(pipeline.url),
-    )
+    )(None)
