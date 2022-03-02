@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "solar-works-job-nimbus"
-version = "0.1.0"
+version = "2.0.0"
 description = ""
 authors = ["HM <hieumdd@gmail.com>"]
 
@@ -16,10 +16,8 @@ google-cloud-tasks = "^2.7.1"
 [tool.poetry.dev-dependencies]
 black = "^21.9b0"
 pytest = "^6.2.5"
-pytest-timeout = "^1.4.2"
 mypy = "^0.910"
 types-requests = "^2.26.0"
-ipykernel = "^6.6.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
@@ -27,7 +25,11 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.pytest.ini_options]
 addopts = "-s --durations=0"
-# timeout = 540
 testpaths = [
     "test",
 ]
+
+[tool.mypy]
+python_version = 3.9
+ignore_missing_imports = true
+namespace_packages = true
