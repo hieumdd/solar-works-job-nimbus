@@ -150,6 +150,7 @@ pipeline = Pipeline(
             "task_id": row["Task Id"],
             "job_id": row["Job Id"],
             "contact_id": row["Contact Id"],
+            "tier": row["Tier"],
         }
         for row in [
             {k.strip().replace(":", ""): transform_null(v) for k, v in row.items()}
@@ -253,6 +254,7 @@ pipeline = Pipeline(
         {"name": "task_id", "type": "STRING"},
         {"name": "job_id", "type": "STRING"},
         {"name": "contact_id", "type": "STRING"},
+        {"name": "tier", "type": "STRING"},
     ],
     update=False,
 )
