@@ -9,6 +9,7 @@ from job_nimbus import (
     contact_reports_all_fields,
     customer_contact,
     completed_installs,
+    leads_overall,
 )
 
 from db.bigquery import ID_KEY, TIME_KEY, load, id_schema
@@ -21,6 +22,7 @@ services = {
         contact_reports_all_fields.pipeline,
         customer_contact.pipeline,
         completed_installs.pipeline,
+        leads_overall.pipeline,
     ]
 }
 
