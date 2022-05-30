@@ -54,7 +54,7 @@ def get_csv(report_url: str) -> Callable[[Any], tuple[str, HTTPHeaders]]:
         # Navigate to Report
         driver.get(report_url)
         wait(driver, 60).until(EC.frame_to_be_available_and_switch_to_it("web1"))
-        wait(driver, 60).until(EC.presence_of_element_located((By.ID, "iFrameShare")))
+        wait(driver, 180).until(EC.presence_of_element_located((By.ID, "iFrameShare")))
         print("Report rendered")
 
         driver.execute_script(
@@ -64,7 +64,7 @@ def get_csv(report_url: str) -> Callable[[Any], tuple[str, HTTPHeaders]]:
             ),
         )
         print("Download initiated")
-        request = driver.wait_for_request("ReportDownload", timeout=240)
+        request = driver.wait_for_request("reportdownload", timeout=240)
         driver.quit()
         return request.url, request.headers
 
