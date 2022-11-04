@@ -3,12 +3,13 @@ from datetime import datetime
 import hashlib
 
 from job_nimbus import (
-    job_nimbus,
-    job_nimbus_repo,
-    job_report_all_fields,
+    company_presentation_ran,
+    completed_installs,
     contact_reports_all_fields,
     customer_contact,
-    completed_installs,
+    job_nimbus_repo,
+    job_nimbus,
+    job_report_all_fields,
     leads_overall,
     sales,
 )
@@ -19,10 +20,11 @@ from utils.utils import compose
 services = {
     i.table: i
     for i in [
-        job_report_all_fields.pipeline,
+        company_presentation_ran.pipeline,
+        completed_installs.pipeline,
         contact_reports_all_fields.pipeline,
         customer_contact.pipeline,
-        completed_installs.pipeline,
+        job_report_all_fields.pipeline,
         leads_overall.pipeline,
         sales.pipeline,
     ]
