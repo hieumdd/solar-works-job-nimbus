@@ -4,6 +4,7 @@ import hashlib
 
 from job_nimbus import (
     company_presentation_ran,
+    company_total_deals,
     completed_installs,
     contact_reports_all_fields,
     customer_contact,
@@ -21,6 +22,7 @@ services = {
     i.table: i
     for i in [
         company_presentation_ran.pipeline,
+        company_total_deals.pipeline,
         completed_installs.pipeline,
         contact_reports_all_fields.pipeline,
         customer_contact.pipeline,
