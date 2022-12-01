@@ -1,0 +1,48 @@
+import { Pipeline } from './pipeline.interface';
+import { transformDateTime } from '../pipeline.transform';
+
+export const leadsOverall: Pipeline = {
+    url: 'https://app.jobnimbus.com/report/fdb233b1177440228227ada0671f6252?view=1',
+    transformFn: (row) => ({
+        number: row['Number'],
+        record_type: row['Record Type'],
+        status: row['Status'],
+        source: row['Source'],
+        created_by: row['Created By'],
+        sales_rep: row['Sales Rep'],
+        first_name: row['First Name'],
+        last_name: row['Last Name'],
+        date_status_change: transformDateTime(row.get('Date Status Change')),
+        city: row['City'],
+        total_install_cost: row['Total Install Cost'],
+        state: row['State'],
+        address_line: row['Address Line'],
+        main_phone: row['Main Phone'],
+        mobile_phone: row['Mobile Phone'],
+        id: row['Id'],
+        related: row['Related'],
+    }),
+    loadOptions: {
+        table: 'LeadsOverall',
+        schema: [
+            { name: 'number', type: 'STRING' },
+            { name: 'record_type', type: 'STRING' },
+            { name: 'status', type: 'STRING' },
+            { name: 'source', type: 'STRING' },
+            { name: 'created_by', type: 'STRING' },
+            { name: 'sales_rep', type: 'STRING' },
+            { name: 'first_name', type: 'STRING' },
+            { name: 'last_name', type: 'STRING' },
+            { name: 'date_status_change', type: 'TIMESTAMP' },
+            { name: 'city', type: 'STRING' },
+            { name: 'total_install_cost', type: 'STRING' },
+            { name: 'state', type: 'STRING' },
+            { name: 'address_line', type: 'STRING' },
+            { name: 'main_phone', type: 'STRING' },
+            { name: 'mobile_phone', type: 'STRING' },
+            { name: 'id', type: 'STRING' },
+            { name: 'related', type: 'STRING' },
+        ],
+        writeDisposition: 'WRITE_TRUNCATE',
+    },
+};
