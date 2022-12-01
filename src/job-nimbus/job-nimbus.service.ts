@@ -20,10 +20,7 @@ export const pipelines = Object.fromEntries(
         contactReportsAllFields,
         customerContact,
         jobReportAllFields,
-
-        // !TODO
         leadsOverall,
-
         sales,
     ].map((pipeline) => [pipeline.loadOptions.table, pipeline]),
 );

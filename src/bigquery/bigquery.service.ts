@@ -34,8 +34,6 @@ export type LoadOptions = {
 export const load = async (rows: Record<string, any>[], options: LoadOptions) => {
     const { table, schema, writeDisposition } = options;
 
-    const x = rows.filter((row) => row.last_phone_call === '2022-09-19');
-
     const [_rows, _table, fields] =
         writeDisposition === 'WRITE_APPEND'
             ? withWriteAppend({ rows, table, schema })
