@@ -12,12 +12,13 @@ export const main: HttpFunction = async (req, res) => {
 
     console.log('body', JSON.stringify(body));
 
-    const retryCount = req.get('X-CloudTasks-TaskRetryCount');
-
     if (body.pipeline) {
         pipelineService(pipelines[body.pipeline])
             .then((data) => res.status(200).json({ data }))
-            .catch((err) => res.status(500).json({ err }));
+            .catch((err) => {
+                console.log('error', JSON.stringify(err));
+                res.status(500).json({ err });
+            });
     } else if (body.task) {
         taskService()
             .then((data) => res.status(200).json({ data }))
