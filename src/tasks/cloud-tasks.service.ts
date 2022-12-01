@@ -2,9 +2,9 @@ import { CloudTasksClient, protos } from '@google-cloud/tasks';
 import HttpMethod = protos.google.cloud.tasks.v2.HttpMethod;
 import { v4 as uuidv4 } from 'uuid';
 
-const PROJECT = 'good-united';
+const PROJECT = 'charge-bee';
 const LOCATION = 'us-central1';
-const QUEUE = 'fb-ads-insights';
+const QUEUE = 'job-nimbus';
 
 const URL = process.env.PUBLIC_URL || '';
 
