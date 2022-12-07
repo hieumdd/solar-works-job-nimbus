@@ -12,7 +12,7 @@ export const leadsOverall: Pipeline = {
         sales_rep: row['Sales Rep'],
         first_name: row['First Name'],
         last_name: row['Last Name'],
-        date_status_change: transformDateTime(row.get('Date Status Change')),
+        date_status_change: transformDateTime(row['Date Status Change']),
         city: row['City'],
         total_install_cost: row['Total Install Cost'],
         state: row['State'],
