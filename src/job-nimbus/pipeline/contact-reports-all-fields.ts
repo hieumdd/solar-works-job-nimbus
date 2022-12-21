@@ -79,7 +79,7 @@ export const contactReportsAllFields: Pipeline = {
         id: row['Id'],
     }),
     loadOptions: {
-        table: 'CompanyPresentationRan',
+        table: 'ContactReportsAllFields',
         schema: [
             { name: 'display', type: 'STRING' },
             { name: 'number', type: 'STRING' },
