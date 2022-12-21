@@ -4,7 +4,6 @@ import { transformFloat, transformDateTime } from '../pipeline.transform';
 export const companyPresentationRan: Pipeline = {
     url: 'https://app.jobnimbus.com/report/c26ab76397a8459da3f5edc1b41c045d?view=1',
     transformFn: (row) => {
-        row
         return {
             sales_rep: row['Sales Rep'],
             status: row['Status'],
